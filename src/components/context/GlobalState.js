@@ -1,23 +1,27 @@
 import {React, createContext, useReducer} from 'react'
-import Appreducer from './AppReducer'
-//initial state:
+import AppReducer from './AppReducer'
 
-const initialState = {
-  transaction: []
+
+//initial state:
+const initialState ={
+  transaction: [
+
+  ]
 }
-//Create conetxt:
+// create context 
 export const GlobalContext = createContext(initialState)
 
-//provider component
-export const GlobalProvider = ({ children }) =>{
-  const [state, dispatch] = useReducer(Appreducer, initialState)
-  //actions
+// use provider along side useReducer with actions:
+export const GlobalProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(AppReducer, initialState)
+  //action
   function deleteTransaction(id){
     dispatch({
       type: 'DELETE_TRANSACTION',
       payload: id
     })
   }
+  //action 2 
   function AddTransaction(transaction){
     dispatch({
       type: 'ADD_TRANSACTION',
@@ -25,11 +29,14 @@ export const GlobalProvider = ({ children }) =>{
     })
   }
 
-  return(<GlobalContext.Provider value={{
-    transaction: state.transaction,
-    deleteTransaction,
-    AddTransaction
-  }}>
-    {children}
-  </GlobalContext.Provider>)
-} 
+  return(
+    <GlobalContext.Provider
+      value={{
+        transaction: state.transaction,
+        deleteTransaction,
+        AddTransaction
+      }}>
+      {children}
+    </GlobalContext.Provider>
+  )
+}
